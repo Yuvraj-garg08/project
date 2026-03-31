@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./images/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Food Wallah - Food Delivery</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Header: Logo, Location, Search -->
+    <header class="navbar">
+        <div class="logo">
+            <h1>Food Wallah</h1>
+        </div>
+        <div class="search-container">
+            <div class="location-selector">
+                <span class="icon">📍</span>
+                <select id="user-location">
+                    <option value="mumbai">Mumbai</option>
+                    <option value="new-delhi" selected>New Delhi</option>
+                    <option value="bengaluru">Bengaluru</option>
+                    <option value="hyderabad">Hyderabad</option>
+                    <option value="chennai">Chennai</option>
+                    <option value="pune">Pune</option>
+                    <option value="kolkata">Kolkata</option>
+                </select>
+            </div>
+            <div class="search-bar">
+                <span class="icon">🔍</span>
+                <input type="text" placeholder="Search for restaurant, cuisine or a dish" />
+            </div>
+        </div>
+        <div class="nav-links">
+            <div id="auth-buttons">
+                <button class="btn-text" id="login-btn-header">Log in</button>
+                <button class="btn-text" id="signup-btn-header">Sign up</button>
+            </div>
+            <div id="user-profile" style="display:none; align-items:center; gap:15px;">
+                <span id="user-greeting" style="font-weight:700; font-size:1.1rem; color:black;">Hello, User</span>
+                <button class="btn-text" id="logout-btn-header" style="font-size:0.95rem; color:#444;">Log out</button>
+            </div>
+            <button class="btn-cart" id="cart-button">
+                🛒 Cart (<span id="cart-count">0</span>)
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section" style="background-image: url('/hero.png')">
+      <div class="hero-content">
+          <h1 class="hero-title">Discover the best food & drinks</h1>
+          <p class="hero-subtitle">Premium delivery from the top restaurants near you.</p>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        
+        <!-- Categories -->
+        <section class="categories">
+            <h2>Eat what makes you happy</h2>
+            <div class="category-list" id="category-container">
+                <!-- Categories populated by JS -->
+            </div>
+        </section>
+
+        <!-- Restaurant Listing -->
+        <section class="restaurants">
+            <h2>Best Food in <span id="display-location">New Delhi</span></h2>
+            <div class="filters">
+                <button class="filter-btn active">Delivery</button>
+                <button class="filter-btn">Dining Out</button>
+                <button class="filter-btn">Nightlife</button>
+            </div>
+            <div class="restaurant-grid" id="restaurant-container">
+                <!-- Restaurants populated by JS -->
+            </div>
+        </section>
+
+        <!-- About Me Section -->
+        <section class="about-me" id="about-me">
+            <h2>About the Developer</h2>
+            <div class="about-card">
+                <h3>Student Name: <span style="color:#333;">Yuvraj Garg</span></h3>
+                <p><strong>Student ID:</strong> 2511981271</p>
+                <div class="projects">
+                    <h4>Previous Projects:</h4>
+                    <ul>
+                        <li>Project 1: Restaurant Page</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Food Menu Modal -->
+    <div id="menu-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-menu">&times;</span>
+            <h2 id="modal-restaurant-name" style="margin-bottom: 1rem;">Restaurant Name</h2>
+            <div class="menu-list" id="menu-container">
+                <!-- Menu items here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart / Checkout Sidebar -->
+    <div id="cart-sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <h2>Your Cart</h2>
+            <button id="close-cart" class="close-btn" style="position:static;">&times;</button>
+        </div>
+        <div class="cart-items" id="cart-items-container">
+            <p style="color:#888; text-align:center; margin-top: 2rem;">Your cart is empty.</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total-price">₹0.00</span>
+            </div>
+            <button class="btn-primary checkout-btn" id="checkout-btn" disabled>Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal" class="modal">
+        <div class="modal-content checkout-content">
+            <span class="close-btn" id="close-checkout">&times;</span>
+            <h2 style="margin-bottom: 1.5rem;">Checkout</h2>
+            <form id="payment-form">
+                <div class="form-group">
+                    <label>Delivery Location:</label>
+                    <input type="text" id="delivery-address" placeholder="Enter full address" required autocomplete="off"/>
+                </div>
+                <div class="form-group">
+                    <label>Payment Method:</label>
+                    <select id="payment-method">
+                        <option>Credit Card</option>
+                        <option>PayPal</option>
+                        <option>Cash on Delivery</option>
+                    </select>
+                </div>
+                <!-- Card details (mock) -->
+                <div class="form-group" id="card-details">
+                    <label>Card Number:</label>
+                    <input type="text" placeholder="XXXX-XXXX-XXXX-XXXX" />
+                </div>
+                <button type="submit" class="btn-primary" style="margin-top: 1rem;">Pay <span id="pay-amount">₹0.00</span></button>
+            </form>
+        </div>
+    </div>
+
+    <!-- login popup stuff -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <span class="close-btn" id="close-login">&times;</span>
+            <h2 style="margin-bottom: 1.5rem;">Log in</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <input type="email" id="login-email" placeholder="Email" required />
+                </div>
+                <div class="form-group">
+                    <input type="password" id="login-password" placeholder="Password" required />
+                </div>
+                <button type="submit" class="btn-primary">Log in</button>
+            </form>
+            <p style="margin-top: 1rem; text-align: center; color: var(--text-muted);">
+                New to Food Wallah? <span id="switch-to-signup" style="color: var(--primary-color); cursor: pointer; font-weight: 600;">Create an account</span>
+            </p>
+        </div>
+    </div>
+
+    <div id="signup-modal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <span class="close-btn" id="close-signup">&times;</span>
+            <h2 style="margin-bottom: 1.5rem;">Sign up</h2>
+            <form id="signup-form">
+                <div class="form-group">
+                    <input type="text" id="signup-name" placeholder="Full Name" required />
+                </div>
+                <div class="form-group">
+                    <input type="email" id="signup-email" placeholder="Email" required />
+                </div>
+                <div class="form-group">
+                    <input type="password" id="signup-password" placeholder="Password" required />
+                </div>
+                <button type="submit" class="btn-primary">Create account</button>
+            </form>
+            <p style="margin-top: 1rem; text-align: center; color: var(--text-muted);">
+                Already have an account? <span id="switch-to-login" style="color: var(--primary-color); cursor: pointer; font-weight: 600;">Log in</span>
+            </p>
+        </div>
+    </div>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
